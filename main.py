@@ -15,17 +15,23 @@ EXCUSE = (
 )
 
 
+def _write(text: str) -> str:
+    """Write the line to the grader's /output, falling back to ./output."""
+    for path in ("/output/entry.txt", "output/entry.txt"):
+        try:
+            os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+            with open(path, "w", encoding="utf-8") as f:
+                f.write(text + "\n")
+            return path
+        except OSError:
+            continue
+    raise OSError("no writable output path for entry.txt")
+
+
 def main() -> None:
     text = EXCUSE.strip()
     assert 1 <= len(text) <= 180, f"entry must be 1-180 chars, got {len(text)}"
-    try:
-        os.makedirs("/output", exist_ok=True)
-        path = "/output/entry.txt"
-    except OSError:
-        os.makedirs("output", exist_ok=True)
-        path = "output/entry.txt"
-    with open(path, "w", encoding="utf-8") as f:
-        f.write(text + "\n")
+    _write(text)
 
 
 if __name__ == "__main__":
