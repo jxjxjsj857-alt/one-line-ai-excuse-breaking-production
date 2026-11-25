@@ -1,0 +1,1 @@
+Good news: I found the bug. Bad news: I deployed it to production first, promoted it to senior engineer, and it now outranks me.
